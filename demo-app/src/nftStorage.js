@@ -36,6 +36,10 @@ export function GetStorageClient() {
 export async function FetchDataFromIpfsLink(cid) {
     const url = `https://ipfs.io/ipfs/${cid}`;
     console.log("======= check this link", url);
+    const data = await fetch(url);
+    const json = await data.json();
+    console.log("======= final json is: ", json);
+    return json;
 }
 
 export async function UploadNftJson(name, description, release, director, image, metadata) {
