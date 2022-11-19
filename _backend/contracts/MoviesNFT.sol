@@ -2,12 +2,14 @@
 pragma solidity ^0.8.4;
 
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
-import "@openzeppelin/contracts/utils/Strings.sol";
+// import "@openzeppelin/contracts/utils/Strings.sol";
+import "@openzeppelin/contracts/utils/Counters.sol";
 
 contract MoviesNFT is ERC721URIStorage {
-    uint256 MAX_RATING_COUNT = 100000000000;
-    uint256 private movieNumber = 1;
-    address private _owner; // owner of the movie NFT
+    // uint256 MAX_RATING_COUNT = 100000000000;
+
+    using Counters for Counters.Counter;
+    Counters.Counter private _tokenIds;
 
     struct movieData {
         uint256 movieNumber;
@@ -22,49 +24,44 @@ contract MoviesNFT is ERC721URIStorage {
         uint256 createdAt; // timestamp of rating
     }
 
-    movieData[] movies;
+    // movieData[] movies;
+    mapping(uint256 => movieData) public movies;
+
     rating[] ratings;
     mapping(address => rating) userRating;
     mapping(address => uint256[]) userMovieRating;
 
-    constructor(address owner) ERC721("MovieNFT", "MNFT") {
-        _owner = owner;
+    constructor() ERC721("MovieNFT", "MNFT") {}
+
+    function createNFT(
+        address creator,
+        string memory name,
+        string memory ipfsHash
+    ) public returns (uint256) {
+        _tokenIds.increment();
+        uint256 newMovieId = _tokenIds.current();
+        movieData memory nextMovie = movieData(newMovieId, name, ipfsHash);
+
+        movies[newMovieId] = nextMovie;
+        _mint(creator, newMovieId);
+        _setTokenURI(newMovieId, ipfsHash);
+        return newMovieId;
     }
 
-    function createMovieNft(string memory name, string memory ipfsHash) public {
-        require(msg.sender == _owner);
-
-        movieData memory nextMovie = movieData(movieNumber, name, ipfsHash);
-
-        movies.push(nextMovie);
-        _mint(msg.sender, movieNumber);
-        _setTokenURI(movieNumber, ipfsHash);
-        movieNumber++;
-    }
-
-    function getAllMovies() public view returns (movieData[] memory) {
-        return movies;
-    }
+    // function getAllMovies()
+    //     public
+    //     view
+    //     returns (mapping(uint256 => movieData) memory)
+    // {
+    //     return movies;
+    // }
 
     function getMovieByNumber(uint256 _movieNum)
         public
         view
-        returns (
-            uint256,
-            string memory,
-            string memory
-        )
+        returns (movieData memory)
     {
-        for (uint256 i = 0; i < movieNumber; i++) {
-            if (movies[i].movieNumber == _movieNum) {
-                return (
-                    movies[i].movieNumber,
-                    movies[i].movieName,
-                    movies[i].ipfsHash
-                );
-            }
-        }
-        return (0, "", "");
+        return movies[_movieNum];
     }
 
     function castMovieRating(uint256 _movieNum, uint8 ratingVal) public {
