@@ -5,20 +5,24 @@ import './App.css';
 import { FetchDataFromIpfsLink, UploadNftJson } from './nftStorage';
 import { DEMO_MOVIE_IMAGE, MOVIES_NFT_CONTRACT_ADDRESS } from './constants';
 import { MOVIES_CONTRACT_ABI } from './contract_abis';
-// import HeaderComponent from './components/Header';
 
 import Navbar from 'react-bootstrap/Navbar';
 import { Nav } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
+import Container from 'react-bootstrap/Container';
 
 function App() {
 
   const [currentAccount, setCurrentAccount] = useState(null);
+  const [allMovies, setAllMovies] = useState([]);
 
   // metamsk methereum references for all user interactions
   const { ethereum } = window
   const pr = new ethers.providers.Web3Provider(ethereum);
   const signer = pr.getSigner()
+
+  let m = [];
 
   // references to the moviesNFT
   const moviesContract = new ethers.Contract(
@@ -41,6 +45,7 @@ function App() {
             '======= Wallet connected, got the address: ',
             accounts[0],
           );
+          getAllMovies();
         });
     } catch (error) {
       console.log(error);
@@ -54,23 +59,68 @@ function App() {
           .request({ method: 'eth_requestAccounts' })
           .then(function (accounts) {
             setCurrentAccount(accounts[0]);
+            getAllMovies();
           });
       }
     };
-    isWalletConnected();
-  }, []);
+    // isWalletConnected();
+  }, [allMovies]);
 
   const shortenAddress = (address) => {
     if (address)
       return address.substring(0, 6) + "..." + address.substring(address.length - 4, address.length)
   }
 
+  const getCidFromIpfsUrl = (url) => {
+    return url.split("\/")[2];
+  }
+
+  async function getAllMovies() {
+    moviesContract.getAllMovies({
+      gasLimit: 1000000000
+    }).then(function (resp) {
+
+      m = [];
+      for (var i = 0; i < resp.length; i++) {
+
+        FetchDataFromIpfsLink(getCidFromIpfsUrl(resp[0]['ipfsHash'])).then(function (resp) {
+          console.log("-==-======= all movies: ", resp);
+          m.push(resp);
+        });
+      }
+      setAllMovies(m);
+      console.log("-==-======= all movies: ", allMovies);
+    });
+  }
+
+  console.log("======= finally all movies!", allMovies);
+
   return (
-    <Navbar bg="light">
-      <Nav className="mx-right">
-        <Button variant="dark" onClick={connectWalletHandler}>Connect Wallet</Button>
-      </Nav>
-    </Navbar>
+    <Container>
+      <Navbar bg="light">
+        <Nav className="mx-right">
+          {currentAccount ?
+            <Button variant="dark">Wallet Connected</Button>
+            :
+            <Button variant="dark" onClick={connectWalletHandler}>Connect Wallet</Button>
+          }
+        </Nav>
+      </Navbar>
+
+      {allMovies.map(mov => (
+        <Card key={mov} style={{ width: '18rem' }}>
+          <Card.Img variant="top" src="holder.js/100px180" />
+          <Card.Body>
+            <Card.Title>mov.name</Card.Title>
+            <Card.Text>
+              mov.description
+            </Card.Text>
+            <Button variant="primary">Go somewhere</Button>
+          </Card.Body>
+        </Card>
+      ))}
+
+    </Container>
   );
 }
 
