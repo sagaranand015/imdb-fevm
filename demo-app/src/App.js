@@ -75,25 +75,40 @@ function App() {
     return url.split("\/")[2];
   }
 
-  async function getAllMovies() {
-    moviesContract.getAllMovies({
-      gasLimit: 1000000000
-    }).then(function (resp) {
-
-      m = [];
-      for (var i = 0; i < resp.length; i++) {
-
+  function getMoviesPayload(resp){
+    m = [];
+    return new Promise(() => {
+      for (let item of resp) {
         FetchDataFromIpfsLink(getCidFromIpfsUrl(resp[0]['ipfsHash'])).then(function (resp) {
           console.log("-==-======= all movies: ", resp);
           m.push(resp);
         });
       }
-      setAllMovies(m);
-      console.log("-==-======= all movies: ", allMovies);
-    });
+      return m;
+    })
   }
 
-  console.log("======= finally all movies!", allMovies);
+
+  async function getAllMovies() {
+    m = [];
+    moviesContract.getAllMovies({
+      gasLimit: 1000000000
+    }).then(function (resp) {
+      for (let item of resp) {
+        FetchDataFromIpfsLink(getCidFromIpfsUrl(resp[0]['ipfsHash'])).then(function (resp) {
+          console.log("-==-======= all movies: ", resp);
+          m.push(resp);
+          setAllMovies(m);
+        });
+      }
+    })
+    //     .then(() => {
+    //       setAllMovies(m);
+    //       console.log("all movies: ", allMovies);
+    //     }
+    // )
+    ;
+  }
 
   return (
     <Container>
@@ -107,9 +122,10 @@ function App() {
         </Nav>
       </Navbar>
 
+      {/*<img src={require('./logo.jpeg')} />*/}
       {allMovies.map(mov => (
         <Card key={mov} style={{ width: '18rem' }}>
-          <Card.Img variant="top" src="holder.js/100px180" />
+          <Card.Img variant="top" src={require('./logo.jpeg')} />
           <Card.Body>
             <Card.Title>mov.name</Card.Title>
             <Card.Text>
