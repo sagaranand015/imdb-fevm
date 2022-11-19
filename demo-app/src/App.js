@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
 import './App.css';
-import { FetchDataFromIpfsLink, UploadNftJson } from './nftStorage';
+import { FetchDataFromIpfsLink, loadImgURL, UploadNftJson } from './nftStorage';
 import { DEMO_MOVIE_IMAGE, MOVIES_NFT_CONTRACT_ADDRESS } from './constants';
 import { MOVIES_CONTRACT_ABI } from './contract_abis';
 
@@ -11,11 +11,14 @@ import { Nav } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Container from 'react-bootstrap/Container';
+import CardGroup from 'react-bootstrap/CardGroup';
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
 
 function App() {
 
   const [currentAccount, setCurrentAccount] = useState(null);
   const [allMovies, setAllMovies] = useState([]);
+  const [moviesLoaded, setMoviedLoaded] = useState(0);
 
   // metamsk methereum references for all user interactions
   const { ethereum } = window
@@ -52,19 +55,21 @@ function App() {
     }
   };
 
+  const isWalletConnected = async () => {
+    if (window.ethereum) {
+      await window.ethereum
+        .request({ method: 'eth_requestAccounts' })
+        .then(function (accounts) {
+          setCurrentAccount(accounts[0]);
+          getAllMovies();
+        });
+    }
+  };
+
   useEffect(() => {
-    const isWalletConnected = async () => {
-      if (window.ethereum) {
-        await window.ethereum
-          .request({ method: 'eth_requestAccounts' })
-          .then(function (accounts) {
-            setCurrentAccount(accounts[0]);
-            getAllMovies();
-          });
-      }
-    };
+
     // isWalletConnected();
-  }, [allMovies]);
+  }, []);
 
   const shortenAddress = (address) => {
     if (address)
@@ -79,21 +84,36 @@ function App() {
     moviesContract.getAllMovies({
       gasLimit: 1000000000
     }).then(function (resp) {
+      setMoviedLoaded(resp.length);
 
-      m = [];
-      for (var i = 0; i < resp.length; i++) {
-
-        FetchDataFromIpfsLink(getCidFromIpfsUrl(resp[0]['ipfsHash'])).then(function (resp) {
-          console.log("-==-======= all movies: ", resp);
-          m.push(resp);
+      // var i = 0;
+      for (const item of resp) {
+        FetchDataFromIpfsLink(getCidFromIpfsUrl(item['ipfsHash'])).then(function (resp2) {
+          // resp2.id = i;
+          console.log("-==-======= all movies: ", resp2);
+          // i++;
+          setAllMovies(allMovies => [...allMovies, resp2]);
         });
       }
-      setAllMovies(m);
-      console.log("-==-======= all movies: ", allMovies);
     });
   }
 
-  console.log("======= finally all movies!", allMovies);
+  function getImageLinkFromCid(ipfsLink) {
+    const cid = getCidFromIpfsUrl(ipfsLink);
+    return `https://${cid}.ipfs.nftstorage.link`;
+  }
+
+  async function rateMovie(movieNum, ratingVal) {
+
+    let val = prompt("Give your rating from 1 to 10");
+    console.log("rating val:", val, movieNum);
+
+    // moviesContract.castMovieRating(movieNum, ratingVal, {
+    //   gasLimit: 1000000000
+    // }).then(function (resp) {
+    //   console.log("Cast Rating: ", resp);
+    // });
+  }
 
   return (
     <Container>
@@ -107,20 +127,28 @@ function App() {
         </Nav>
       </Navbar>
 
-      {allMovies.map(mov => (
-        <Card key={mov} style={{ width: '18rem' }}>
-          <Card.Img variant="top" src="holder.js/100px180" />
-          <Card.Body>
-            <Card.Title>mov.name</Card.Title>
-            <Card.Text>
-              mov.description
-            </Card.Text>
-            <Button variant="primary">Go somewhere</Button>
-          </Card.Body>
-        </Card>
-      ))}
+      <CardGroup>
+        {allMovies.map(mov => (
+          <Card key={mov.id} style={{ width: '18rem' }}>
+            <Card.Img height="100%" width="100%" variant="top" src={getImageLinkFromCid(mov.image)} />
+            <Card.Body>
+              <Card.Title>{mov.name}</Card.Title>
+              <Card.Text>
+                {mov.description}
+              </Card.Text>
+              <ButtonGroup className="me-2" aria-label="First group">
+                <Button variant="success" onClick={() => rateMovie(mov.id)}>Rate This Movie</Button>
+              </ButtonGroup>
 
-    </Container>
+              <ButtonGroup className="me-2" aria-label="second group">
+                <Button variant="primary">See Average Rating</Button>
+              </ButtonGroup>
+            </Card.Body>
+          </Card>
+        ))}
+      </CardGroup>
+
+    </Container >
   );
 }
 
