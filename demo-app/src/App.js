@@ -249,7 +249,7 @@ function App() {
                                         showMovieAlreadyRated(mov.id)
                                             ?
                                             <div>
-                                                <b>You Already Rated {mov.name} with {getMovieAlreadyRatedValue(mov.id)} stars:</b>
+                                                <b>You Rated {mov.name} with {getMovieAlreadyRatedValue(mov.id)} stars:</b>
                                             </div>
                                             :
                                             <div>

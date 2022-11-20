@@ -62,11 +62,11 @@ function App() {
   async function createMovieNft() {
     // 1. Create the IPFS link of the JSON file
     // 2. Call the smart contract method and get the tokenId
-    let m_name = "Forrest Gump";
-    let m_desc = "The presidencies of Kennedy and Johnson, the Vietnam War, the Watergate scandal and other historical events unfold from the perspective of an Alabama man with an IQ of 75, whose only desire is to be reunited with his childhood sweetheart.";
-    let m_release = "1994";
-    let m_director = "Robert Zemeckis";
-    let m_image = "ipfs://bafybeiaypsafwasbzosqbxnbknwlswmrnvxkpvl5tj4cdtl6volu4l4lde";
+    let m_name = "The Dark Knight";
+    let m_desc = "When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice.";
+    let m_release = "2008";
+    let m_director = "Christopher Nolan";
+    let m_image = "ipfs://bafybeidnh3ibfhhhh7eshmltt2bz72ueet73dh2paqfozrkfntvqtcn7ri";
     await UploadNftJson(m_name, m_desc, m_release, m_director, m_image, {
       "name": m_name,
       "description": m_desc,
