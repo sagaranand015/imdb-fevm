@@ -203,7 +203,7 @@ function App() {
                     <Navbar.Toggle />
                     <Navbar.Collapse className="justify-content-end">
                         {currentAccount ?
-                            <Button variant="dark">Wallet Connected</Button>
+                            <Button variant="dark">{shortenAddress(currentAccount)}</Button>
                             :
                             <Button variant="dark" onClick={connectWalletHandler}>Connect Wallet</Button>
                         }
