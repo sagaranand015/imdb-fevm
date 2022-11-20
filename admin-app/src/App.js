@@ -47,6 +47,7 @@ function App() {
   };
 
   useEffect(() => {
+    document.title = 'W3MDB Admin App - Create your Movie/Creation';
     const isWalletConnected = async () => {
       if (window.ethereum) {
         await window.ethereum

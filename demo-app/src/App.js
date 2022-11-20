@@ -77,6 +77,7 @@ function App() {
     };
 
     useEffect(() => {
+        document.title = 'W3MDB Demo App - Listing and Ratings';
         // isWalletConnected();
         // getAllUserRatings();
     }, []);
