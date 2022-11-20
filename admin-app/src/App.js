@@ -6,6 +6,10 @@ import { FetchDataFromIpfsLink, UploadNftJson } from './nftStorage';
 import { DEMO_MOVIE_IMAGE, MOVIES_NFT_CONTRACT_ADDRESS } from './constants';
 import { MOVIES_CONTRACT_ABI } from './contract_abis';
 
+import Accordion from 'react-bootstrap/Accordion';
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
+import Button from 'react-bootstrap/Button';
+
 function App() {
 
   const [currentAccount, setCurrentAccount] = useState(null);
@@ -143,17 +147,32 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <button onClick={connectWalletHandler}>Connect Wallet</button>
-        <button onClick={createMovieNft}>Create Movie NFT</button>
+        <ButtonGroup className="me-2" aria-label="First group">
+          <Button variant="primary" onClick={connectWalletHandler}>Connect Wallet</Button>
+        </ButtonGroup>
+
+        <Accordion defaultActiveKey="0">
+          <Accordion.Item eventKey="0">
+            <Accordion.Header>Create Movie NFT</Accordion.Header>
+            <Accordion.Body>
+              <h3>Create the Movie NFT with the following details:</h3>
+              <p>Name: The Dark KNight</p>
+              <p>Demo Image: <a target="_blank" href='https://bafkreieddeiyxsyk7x6twdshl74fpfvcro5riwj4vfxo5zty3pdfzvf73m.ipfs.nftstorage.link' >Here</a></p>
+              <Button variant="primary" onClick={createMovieNft}>Create Moview NFT</Button>
+            </Accordion.Body>
+          </Accordion.Item>
+        </Accordion>
+
+        {/* <button onClick={createMovieNft}>Create Movie NFT</button>
         <button onClick={getAllMovies}>Get all movies</button>
         <button onClick={() => getMovieByNumber(1)}>Get Movie with TokenId: 1</button>
         <button onClick={() => getMovieByNumber(2)}>Get Movie with TokenId: 2</button>
         <button onClick={() => castMovieRating(1, 10)}>Cast rating: 10 to movie: 1</button>
         <button onClick={() => castMovieRating(2, 8)}>Cast rating: 8 to movie: 2</button>
-        {/* <button onClick={() => getMovieRatingsByNumber(2)}>Get Movie Ratings with TokenId: 1</button> */}
+        <button onClick={() => getMovieRatingsByNumber(2)}>Get Movie Ratings with TokenId: 1</button>
         <button onClick={() => getUserRatings()}>Get Current User Ratings</button>
         <button onClick={() => getAvgForMovie(1)}>Get Average Rating of Movie: 1</button>
-        <button onClick={() => getAllRatings()}>Get All Ratings</button>
+        <button onClick={() => getAllRatings()}>Get All Ratings</button> */}
         <br />
 
       </header>

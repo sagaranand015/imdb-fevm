@@ -158,70 +158,6 @@ function App() {
         return 0;
     }
 
-    // function showRated(_movieNum) {
-    //     for (const item of userRating) {
-    //         if (item.currentAccount == currentAccount && item.movieNum == _movieNum) {
-    //             // return item.showRated;
-    //             setShowMovieRated({ "movieNum": _movieNum, "showStatus": true, "ratingVal": item.ratingVal });
-    //         }
-    //     }
-    //     setShowMovieRated({ "movieNum": _movieNum, "showStatus": false, "ratingVal": 0 });
-    // }
-
-    // function getShowStatus(_movieNum) {
-    //     return showMovieRated.showStatus;
-    // }
-
-    // function getMovieRatingVal(_movieNum) {
-    //     return showMovieRated.ratingVal;
-    // }
-
-    // async function getAllUserRatings() {
-    //     if (currentAccount) {
-    //         moviesContract.getUserRating(currentAccount, {
-    //             gasLimit: 1000000000
-    //         }).then(function (resp) {
-    //             console.log("User Ratings Response:", resp);
-    //             for (const item of resp) {
-    //                 if (item.ratingVal == 0) {
-    //                     break;
-    //                 }
-    //                 let userRatingObj = {
-    //                     currentAccount,
-    //                     "movieNum": item.movieNumber,
-    //                     "ratingVal": item.ratingVal
-    //                 }
-    //                 setUserRating(userRating => [...userRating, userRatingObj]);
-    //             }
-    //         });
-    //     } else {
-    //         console.log("========== no address to get user ratings yet!");
-    //     }
-    // }
-
-    // async function askedUserRating(_movieNum) {
-    //     await moviesContract.hasUserRated(_movieNum, {
-    //         gasLimit: 1000000000
-    //     }).then(function (resp) {
-    //         console.log("========== hasUserRated Response: ", resp);
-    //         let userRatingObj = {
-    //             currentAccount,
-    //             "movieNum": _movieNum,
-    //             "ratingVal": resp[1],
-    //         }
-    //         setUserRating(userRating => [...userRating, userRatingObj]);
-    //     });
-    // }
-
-    // function getMovieRatingByUser(_movieNum) {
-    //     for (const item of userRating) {
-    //         if (item.currentAccount == currentAccount && item.movieNum == _movieNum) {
-    //             return item.ratingVal;
-    //         }
-    //     }
-    //     return 0;
-    // }
-
     function setAverageMovieRating(_movieNum) {
         console.log("get avg rating val:", _movieNum);
         moviesContract.getAvgMovieRating(_movieNum, {
@@ -279,64 +215,11 @@ function App() {
                                 {mov.description}
                             </Card.Text>
 
-                            {/* <div hidden={!getShowStatus(mov.id)}>
-                                <b>Add your Rating:</b>
-                                <ReactStars
-                                    count={10}
-                                    onChange={(newVal) => rateMovie(mov.id, newVal)}
-                                    size={32}
-                                    activeColor="#ffd700"
-                                />
-                            </div>
-
-                            <div hidden={getShowStatus(mov.id)}>
-                                <b>You Rated:</b>
-                                <ReactStars
-                                    count={10}
-                                    size={32}
-                                    value={getMovieRatingVal(mov.id)}
-                                    edit={false}
-                                    activeColor="#ffd700"
-                                />
-                            </div> */}
-
-
-
-                            {/* {getMovieRatingByUser(mov.id) != 0 ?
-                                <div>
-                                    <b>You Rated:</b>
-                                    <ReactStars
-                                        count={10}
-                                        size={32}
-                                        value={getMovieRatingByUser(mov.id)}
-                                        edit={false}
-                                        activeColor="#ffd700"
-                                    />
-                                </div>
-                                :
-                                <div>
-                                    <b>Add your Rating:</b>
-                                    <ReactStars
-                                        count={10}
-                                        onChange={(newVal) => rateMovie(mov.id, newVal)}
-                                        size={32}
-                                        activeColor="#ffd700"
-                                    />
-                                </div>
-                            } */}
-
                             {
                                 showMovieAlreadyRated(mov.id)
                                     ?
                                     <div>
                                         <b>You Already Rated {mov.name} with {getMovieAlreadyRatedValue(mov.id)} stars:</b>
-                                        {/* <ReactStars
-                                            count={5}
-                                            size={32}
-                                            value={1}
-                                            edit={false}
-                                            activeColor="#ffd700"
-                                        /> */}
                                     </div>
                                     :
                                     <div>
@@ -349,9 +232,6 @@ function App() {
                                         />
                                     </div>
                             }
-
-
-                            {/* {showMovieAlreadyRated(mov.id) ? <div>This is truthy</div> : <p>This is falsi</p>} */}
 
 
                             {
