@@ -23,6 +23,12 @@ contract MoviesNFT is ERC721URIStorage {
         uint256 createdAt; // timestamp of rating
     }
 
+    struct userRatingVal {
+        uint256 movieNumber;
+        uint8 ratingVal;
+    }
+    // userRatingVal[] public userRatingArr;
+
     movieData[] public moviesArr;
     mapping(uint256 => movieData) public movies;
 
@@ -94,16 +100,36 @@ contract MoviesNFT is ERC721URIStorage {
         return avg;
     }
 
+    function hasUserRated(uint256 _movieNum) public view returns (bool, uint8) {
+        for (uint256 i = 0; i < ratings.length; i++) {
+            if (
+                ratings[i].ratingOwner == msg.sender &&
+                ratings[i].movieNumber == _movieNum
+            ) {
+                return (true, ratings[i].ratingVal);
+            }
+        }
+        return (false, 0);
+    }
+
     function getUserRating(address userAdd)
         public
         view
-        returns (bool, rating memory)
+        returns (userRatingVal[] memory)
     {
-        rating memory rs = userRating[userAdd];
-        if (rs.ratingVal > 0) {
-            return (true, rs);
+        userRatingVal[] memory userRatingArr = new userRatingVal[](10000);
+        uint256 j = 0;
+        for (uint256 i = 0; i < ratings.length; i++) {
+            if (ratings[i].ratingOwner == userAdd) {
+                userRatingVal memory ura = userRatingVal(
+                    ratings[i].movieNumber,
+                    ratings[i].ratingVal
+                );
+                userRatingArr[j] = ura;
+                j++;
+            }
         }
-        return (false, rs);
+        return userRatingArr;
     }
 
     function getAllRatings() public view returns (rating[] memory) {

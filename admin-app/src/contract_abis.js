@@ -336,30 +336,6 @@ export const MOVIES_CONTRACT_ABI = [
     {
         "inputs": [
             {
-                "internalType": "uint256",
-                "name": "_movieNum",
-                "type": "uint256"
-            }
-        ],
-        "name": "hasUserRated",
-        "outputs": [
-            {
-                "internalType": "bool",
-                "name": "",
-                "type": "bool"
-            },
-            {
-                "internalType": "uint8",
-                "name": "",
-                "type": "uint8"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
                 "internalType": "address",
                 "name": "owner",
                 "type": "address"
