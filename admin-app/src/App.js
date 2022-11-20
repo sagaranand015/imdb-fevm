@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
 import './App.css';
 import { FetchDataFromIpfsLink, UploadNftJson } from './nftStorage';
-import { DEMO_MOVIE_IMAGE, MOVIES_NFT_CONTRACT_ADDRESS } from './constants';
+import { BATMAN_BEGINS, DEMO_MOVIE_IMAGE, MOVIES_NFT_CONTRACT_ADDRESS } from './constants';
 import { MOVIES_CONTRACT_ABI } from './contract_abis';
 
 import Accordion from 'react-bootstrap/Accordion';
@@ -62,12 +62,17 @@ function App() {
   async function createMovieNft() {
     // 1. Create the IPFS link of the JSON file
     // 2. Call the smart contract method and get the tokenId
-    await UploadNftJson("movie02", "description for movie02", "2010", "Mr. Director", DEMO_MOVIE_IMAGE, {
-      "name": "movie02",
-      "description": "description for movie02",
-      "director": "Mr. Director",
-      "release": "2010",
-      "imageURL": DEMO_MOVIE_IMAGE,
+    let m_name = "The Shawshank Redemption";
+    let m_desc = "Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.";
+    let m_release = "1994";
+    let m_director = "Frank Farabont";
+    let m_image = "ipfs://bafybeifwewrzmi6qiufxaf7ugx2cj6q4zv3qvkjc22xcorxvbuvnhfnsdm";
+    await UploadNftJson(m_name, m_desc, m_release, m_director, m_image, {
+      "name": m_name,
+      "description": m_desc,
+      "director": m_director,
+      "release": m_release,
+      "imageURL": m_image,
     }).then(function (resp) {
       console.log("======== response of nft.storage is: ", resp);
       const ipfsUrl = `ipfs://${resp}`
@@ -75,7 +80,7 @@ function App() {
 
       console.log("========== creating moviesNft with currentAccount: ", currentAccount);
 
-      moviesContract.createNFT(currentAccount, "movie02",
+      moviesContract.createNFT(currentAccount, m_name,
         ipfsUrl, {
         gasLimit: 1000000000
       }).then(function (resp) {
@@ -162,6 +167,8 @@ function App() {
             </Accordion.Body>
           </Accordion.Item>
         </Accordion>
+
+        <button onClick={getAllMovies}>Get all movies</button>
 
         {/* <button onClick={createMovieNft}>Create Movie NFT</button>
         <button onClick={getAllMovies}>Get all movies</button>
