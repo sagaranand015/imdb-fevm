@@ -1,39 +1,13 @@
-# FEVM-Dapp-Starter-Kit
+### Web3-Imdb 
+Movies rater on Web3, deployed on Wallaby Testnet with every movie being treated as an ERC721 token and token metadata stored on IPFS (via nft.storage)
 
-### Clone the project
-```bash
-  git clone https://github.com/rk-rishikesh/FEVM-Dapp-Starter-Kit.git
-```
-### Install node modules
-```bash
-  cd FEVM-Dapp-Starter-Kit
-  npm install
-```
-### Update the private key
-Add your deployment account private key in hardhat config file.
+### Project Structure
+1. _backend: contains the backend smart contract code compiling and deploying the Movies Contracts
+2. demo-app: Demo app for integrating with the deployed smart contract. Functions within this demo-app show how to interact with the platforms, perform user ratings and see average ratings for any creation
+3. admin-app: Admin app for creating a new movie/creation with data being stored on IPFS
 
-### Compile the Smart Contracts
-```bash
-  npx hardhat compile
-```
-### Fund deployment account
-Deposit some tFIL to your deployment account from wallaby faucet - https://wallaby.network/
+### Live Demo
+Demo App: https://creative-bubblegum-21e318.netlify.app/
+Admin App: https://w3mdb-admin.netlify.app
 
-### Deploy the Smart Contracts on Wallaby Testnet
-```bash
-  npx hardhat deploy
-```
-
-> Note the contract address and locate the contract ABI under deployments folder and replace it inside the contants file under client folder.
-
-### Install node modules inside client folder
-```bash
-  cd client
-  npm install
-```
-
-### To deploy this project run
-
-```bash
-  npm run start
-```
+### Demo link
