@@ -14,11 +14,17 @@ import Container from 'react-bootstrap/Container';
 import CardGroup from 'react-bootstrap/CardGroup';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 
+import Rating from '@mui/material/Rating';
+import Typography from '@mui/material/Rating';
+
+
 function App() {
 
   const [currentAccount, setCurrentAccount] = useState(null);
   const [allMovies, setAllMovies] = useState([]);
   const [moviesLoaded, setMoviedLoaded] = useState(0);
+  const [movieRating, setMovieRating] = useState(0);
+
 
   // metamsk methereum references for all user interactions
   const { ethereum } = window
@@ -105,14 +111,16 @@ function App() {
 
   async function rateMovie(movieNum, ratingVal) {
 
-    let val = prompt("Give your rating from 1 to 10");
-    console.log("rating val:", val, movieNum);
+    // let val = prompt("Give your rating from 1 to 10");
+    console.log("rating val:", ratingVal, movieNum);
 
-    // moviesContract.castMovieRating(movieNum, ratingVal, {
-    //   gasLimit: 1000000000
-    // }).then(function (resp) {
-    //   console.log("Cast Rating: ", resp);
-    // });
+    movieNum = 1; // stub
+
+    moviesContract.castMovieRating(movieNum, ratingVal, {
+      gasLimit: 1000000000
+    }).then(function (resp) {
+      console.log("Cast Rating: ", resp);
+    });
   }
 
   return (
@@ -137,9 +145,16 @@ function App() {
                 {mov.description}
               </Card.Text>
               <ButtonGroup className="me-2" aria-label="First group">
-                <Button variant="success" onClick={() => rateMovie(mov.id)}>Rate This Movie</Button>
+                <Button variant="success" onClick={() => rateMovie(mov.id, movieRating)}>Rate This Movie</Button>
               </ButtonGroup>
-
+              <Rating
+                  name="simple-controlled"
+                  value={movieRating}
+                  onChange={(event, newValue) => {
+                    setMovieRating(newValue);
+                  }}
+                  max={10}
+              />
               <ButtonGroup className="me-2" aria-label="second group">
                 <Button variant="primary">See Average Rating</Button>
               </ButtonGroup>
