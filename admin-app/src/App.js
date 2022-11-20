@@ -164,7 +164,7 @@ function App() {
               <h3>Create the Movie NFT with the following details:</h3>
               <p>Name: The Dark KNight</p>
               <p>Demo Image: <a target="_blank" href='https://bafkreieddeiyxsyk7x6twdshl74fpfvcro5riwj4vfxo5zty3pdfzvf73m.ipfs.nftstorage.link' >Here</a></p>
-              <Button variant="primary" onClick={createMovieNft}>Create Moview NFT</Button>
+              <Button variant="primary" onClick={createMovieNft}>Create Movie NFT</Button>
             </Accordion.Body>
           </Accordion.Item>
         </Accordion>
