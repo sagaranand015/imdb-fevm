@@ -11,9 +11,9 @@ Demo App: https://creative-bubblegum-21e318.netlify.app/
 Admin App: https://w3mdb-admin.netlify.app
 
 ### Demo link & Txns
-1. (Demo Video is available here)[https://youtu.be/n64VPoRAPKI]
-2. TxnId for creating the Dark Knight Movie: 0x677c7fc7dca1d7dcaf416946670d49b11ec302d2ae79706be4f2ae0b829ad9ab. (Explorer Link is here)[https://explorer.glif.io/tx/0x677c7fc7dca1d7dcaf416946670d49b11ec302d2ae79706be4f2ae0b829ad9ab/?network=wallabynet]
-3. TxnId for creating rating the Batman Begins Movie: 0x48061ae87ca42c561e6a318fbb556436ec97245173cbca2f48245a6a787d9eca. (Explorer Link is here)[https://explorer.glif.io/tx/0x48061ae87ca42c561e6a318fbb556436ec97245173cbca2f48245a6a787d9eca/?network=wallabynet]
+1. [Demo Video is available here](https://youtu.be/n64VPoRAPKI)
+2. TxnId for creating the Dark Knight Movie: 0x677c7fc7dca1d7dcaf416946670d49b11ec302d2ae79706be4f2ae0b829ad9ab. [Explorer Link is here](https://explorer.glif.io/tx/0x677c7fc7dca1d7dcaf416946670d49b11ec302d2ae79706be4f2ae0b829ad9ab/?network=wallabynet)
+3. TxnId for creating rating the Batman Begins Movie: 0x48061ae87ca42c561e6a318fbb556436ec97245173cbca2f48245a6a787d9eca. [Explorer Link is here](https://explorer.glif.io/tx/0x48061ae87ca42c561e6a318fbb556436ec97245173cbca2f48245a6a787d9eca/?network=wallabynet)
 
 ### Running the user-app
 1. Change directory to demo-app
