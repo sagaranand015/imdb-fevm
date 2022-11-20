@@ -62,11 +62,11 @@ function App() {
   async function createMovieNft() {
     // 1. Create the IPFS link of the JSON file
     // 2. Call the smart contract method and get the tokenId
-    let m_name = "The Shawshank Redemption";
-    let m_desc = "Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.";
+    let m_name = "Forrest Gump";
+    let m_desc = "The presidencies of Kennedy and Johnson, the Vietnam War, the Watergate scandal and other historical events unfold from the perspective of an Alabama man with an IQ of 75, whose only desire is to be reunited with his childhood sweetheart.";
     let m_release = "1994";
-    let m_director = "Frank Farabont";
-    let m_image = "ipfs://bafybeifwewrzmi6qiufxaf7ugx2cj6q4zv3qvkjc22xcorxvbuvnhfnsdm";
+    let m_director = "Robert Zemeckis";
+    let m_image = "ipfs://bafybeiaypsafwasbzosqbxnbknwlswmrnvxkpvl5tj4cdtl6volu4l4lde";
     await UploadNftJson(m_name, m_desc, m_release, m_director, m_image, {
       "name": m_name,
       "description": m_desc,
@@ -168,7 +168,7 @@ function App() {
           </Accordion.Item>
         </Accordion>
 
-        <button onClick={getAllMovies}>Get all movies</button>
+        {/* <button onClick={getAllMovies}>Get all movies</button> */}
 
         {/* <button onClick={createMovieNft}>Create Movie NFT</button>
         <button onClick={getAllMovies}>Get all movies</button>
