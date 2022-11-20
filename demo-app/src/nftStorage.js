@@ -38,7 +38,7 @@ export async function FetchDataFromIpfsLink(cid) {
     // console.log("======= check this link", url);
     const data = await fetch(url);
     const json = await data.json();
-    console.log("======= final json is: ", json);
+    // console.log("======= final json is: ", json);
     return json;
 }
 

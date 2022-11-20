@@ -54,10 +54,10 @@ function App() {
                 .request({ method: 'eth_requestAccounts' })
                 .then(function (accounts) {
                     setCurrentAccount(accounts[0]);
-                    console.log(
-                        '======= Wallet connected, got the address: ',
-                        accounts[0],
-                    );
+                    // console.log(
+                    //     '======= Wallet connected, got the address: ',
+                    //     accounts[0],
+                    // );
                     getAllMovies();
                 });
         } catch (error) {
@@ -96,7 +96,7 @@ function App() {
             gasLimit: 1000000000
         }).then(function (resp) {
             setMoviedLoaded(resp.length);
-            console.log("====== allMovies response is: ", resp);
+            // console.log("====== allMovies response is: ", resp);
             for (const item of resp) {
                 FetchDataFromIpfsLink(getCidFromIpfsUrl(item['ipfsHash'])).then(function (resp2) {
                     resp2.id = item.movieNumber.toNumber();
